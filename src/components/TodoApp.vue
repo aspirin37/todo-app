@@ -85,9 +85,6 @@ export default {
   watch: {
     todoList: {
       handler(val) {
-        if (this.settingNewItem) {
-          return;
-        }
         this.allChecked = val.every((it) => it.checked);
       },
       deep: true,
