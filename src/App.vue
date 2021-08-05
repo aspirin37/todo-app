@@ -1,23 +1,47 @@
 <template>
   <v-app>
     <v-main>
-      <todo-app />
+      <v-app-bar
+        dense
+        dark
+      >
+        <v-toolbar-title>
+          <v-btn
+            to="/"
+            outlined
+          >
+            Todos
+          </v-btn>
+        </v-toolbar-title>
+        <v-spacer />
+
+        <v-btn
+          class="mr-2"
+          to="hello"
+        >
+          Hello
+        </v-btn>
+        <v-btn
+          to="old"
+          class="mr-2"
+        >
+          Old
+        </v-btn>
+        <v-btn
+          to="axioslist"
+        >
+          Axios-List
+        </v-btn>
+      </v-app-bar>
+      <router-view />
     </v-main>
   </v-app>
 </template>
 
 <script>
-import TodoApp from '@/components/todo-vuetify/TodoApp.vue';
 
 export default {
   name: 'App',
 
-  components: {
-    TodoApp,
-  },
-
-  data: () => ({
-    //
-  }),
 };
 </script>
