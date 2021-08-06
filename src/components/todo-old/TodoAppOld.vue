@@ -42,7 +42,7 @@ import uniqid from 'uniqid';
 import TodoList from './TodoList.vue';
 
 export default {
-  name: 'TodoApp',
+  name: 'TodoAppOld',
   components: {
     TodoList,
   },
@@ -57,7 +57,7 @@ export default {
         checked: true,
       }, {
         id: uniqid(),
-        text: 'Нассать на кота',
+        text: 'Погладить кота',
         checked: false,
       }],
       allChecked: false,
@@ -118,12 +118,12 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .mr-2 {
   margin-right: 10px;
 }
 
-button.active {
+.active {
   background-color: red;
 }
 </style>

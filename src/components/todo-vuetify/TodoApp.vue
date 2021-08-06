@@ -1,60 +1,60 @@
 <template>
   <div>
-    <v-app>
-      <v-content>
-        <h1>todos</h1>
-        <v-card
-          elevation="10"
-          tile
-          class="card-container ma-10 pa-3"
-        >
-          <v-row class="pl-4 pr-4 pb-2 header-form">
-            <v-checkbox
-              v-model="allChecked"
-              @click="toggleAllChecked"
-            />
-            <v-text-field
-              v-model="newTodo"
-              placeholder="What needs to be done?"
-              class="no-bottom-line"
-              autofocus
-              @keydown.enter="addNewTodo"
-            />
-          </v-row>
-          <todo-list
-            :list="currentList"
-            @removeItem="removeItem"
+    <v-content>
+      <h1>todos</h1>
+      <v-card
+        elevation="10"
+        tile
+        class="card-container ma-10 pa-3"
+      >
+        <v-row class="pl-4 pr-4 pb-2 header-form">
+          <v-checkbox
+            v-model="allChecked"
+            @click="toggleAllChecked"
           />
-          <div class="bottom-form mt-6">
-            <p>{{ todoLeft }} items left</p>
-            <v-spacer />
-            <button
-              v-for="it in tabs"
-              :key="it"
-              :class="currentTab === it && 'active'"
-              class="ml-10 pa-1 pl-2 pr-2"
-              @click="setCurrentTab(it)"
-            >
-              {{ it }}
-            </button>
-            <v-spacer />
-            <button @click="clearCompleted">
-              Clear Completed
-            </button>
-          </div>
-        </v-card>
-      </v-content>
-    </v-app>
+          <v-text-field
+            v-model="newTodo"
+            placeholder="What needs to be done?"
+            class="no-bottom-line"
+            autofocus
+            @keydown.enter="addNewTodo"
+          />
+        </v-row>
+        <todo-list
+          :list="currentList"
+          @removeItem="removeItem"
+        />
+        <div class="bottom-form mt-6">
+          <p>{{ todoLeft }} items left</p>
+          <v-spacer />
+          <button
+            v-for="it in tabs"
+            :key="it"
+            :class="currentTab === it && 'active'"
+            class="ml-10 pa-1 pl-2 pr-2"
+            @click="setCurrentTab(it)"
+          >
+            {{ it }}
+          </button>
+          <v-spacer />
+          <button @click="clearCompleted">
+            Clear Completed
+          </button>
+        </div>
+      </v-card>
+    </v-content>
   </div>
 </template>
 
 <script>
 import uniqid from 'uniqid';
+
 import TodoList from './TodoList.vue';
 
 export default {
   name: 'TodoApp',
   components: { TodoList },
+
   data() {
     return {
       allChecked: false,
@@ -72,6 +72,7 @@ export default {
         checked: false,
       },
       ],
+
     };
   },
 
@@ -99,9 +100,14 @@ export default {
     todoList: {
       handler(val) {
         this.allChecked = val.every((it) => it.checked);
+        localStorage.setItem('todoList', JSON.stringify(this.todoList));
       },
       deep: true,
     },
+  },
+
+  created() {
+    this.localSaveTodoList();
   },
 
   methods: {
@@ -128,11 +134,14 @@ export default {
     removeItem(id) {
       this.todoList = this.todoList.filter((it) => it.id !== id);
     },
+    localSaveTodoList() {
+      this.todoList = JSON.parse(localStorage.getItem('todoList')) || this.todoList;
+    },
   },
 };
 </script>
 
-<style>
+<style scoped>
 h1 {
   text-align: center;
   color: rgb(237, 171, 171);
@@ -147,21 +156,6 @@ h1 {
   display: flex;
   align-items: baseline;
 }
-
-/* .bottom-form::before {
-  content: '';
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  height: 50px;
-  overflow: hidden;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2),
-              0 8px 0 -3px #f6f6f6,
-              0 9px 1px -3px rgba(0, 0, 0, 0.2),
-              0 16px 0 -6px #f6f6f6,
-              0 17px 2px -6px rgba(0, 0, 0, 0.2);
-} */
 
 .header-form {
   border-bottom: 1px solid rgb(130, 130, 130);
