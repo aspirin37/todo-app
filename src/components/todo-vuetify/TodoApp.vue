@@ -54,7 +54,6 @@ import TodoList from './TodoList.vue';
 export default {
   name: 'TodoApp',
   components: { TodoList },
-  localTodo: '',
 
   data() {
     return {
@@ -102,14 +101,13 @@ export default {
       handler(val) {
         this.allChecked = val.every((it) => it.checked);
         localStorage.setItem('todoList', JSON.stringify(this.todoList));
-        this.localTodo = JSON.parse(localStorage.getItem('todoList'));
       },
       deep: true,
     },
   },
 
   created() {
-    this.LocalSaveTodoList();
+    this.localSaveTodoList();
   },
 
   methods: {
@@ -136,7 +134,7 @@ export default {
     removeItem(id) {
       this.todoList = this.todoList.filter((it) => it.id !== id);
     },
-    LocalSaveTodoList() {
+    localSaveTodoList() {
       this.todoList = JSON.parse(localStorage.getItem('todoList')) || this.todoList;
     },
   },
