@@ -27,6 +27,7 @@
           >
             {{ currency.description }}:
             <span class="font-weight-light">
+              <!-- eslint-disable-next-line -->
               <span v-html="currency.symbol" />
               {{ currency.rate_float | currencydecimal }}
             </span>
