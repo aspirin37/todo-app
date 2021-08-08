@@ -9,8 +9,8 @@
           v-model="it.checked"
         />
         <v-text-field
+          v-model="it.text"
           class="no-bottom-line"
-          :value="it.text"
         />
         <button
           @click="$emit('removeItem', it.id)"

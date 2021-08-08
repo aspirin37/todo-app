@@ -48,7 +48,7 @@
 
 <script>
 import uniqid from 'uniqid';
-
+import { mapState } from 'vuex';
 import TodoList from './TodoList.vue';
 
 export default {
@@ -62,19 +62,11 @@ export default {
       newTodo: '',
       tabs: ['All', 'Active', 'Completed'],
 
-      todoList: [{
-        id: uniqid(),
-        text: 'First item',
-        checked: true,
-      }, {
-        id: uniqid(),
-        text: 'Second item',
-        checked: false,
-      }],
     };
   },
 
   computed: {
+    ...mapState(['todoList']),
     todoLeft() {
       return this.todoList.filter((it) => !it.checked).length;
     },
@@ -105,10 +97,6 @@ export default {
     },
   },
 
-  created() {
-    this.localSaveTodoList();
-  },
-
   methods: {
     addNewTodo() {
       const newTodoObj = {
@@ -116,11 +104,13 @@ export default {
         text: this.newTodo,
         checked: false,
       };
-      this.todoList.push(newTodoObj);
+      // this.todoList.push(newTodoObj);
       this.newTodo = '';
+      this.$store.commit('addNewTodo', newTodoObj);
     },
     clearCompleted() {
-      this.todoList = this.todoList.filter((it) => !it.checked);
+      const todoList = this.todoList.filter((it) => !it.checked);
+      this.$store.commit('updateTodoList', todoList);
     },
     setCurrentTab(val) {
       this.currentTab = val;
@@ -131,10 +121,8 @@ export default {
       });
     },
     removeItem(id) {
-      this.todoList = this.todoList.filter((it) => it.id !== id);
-    },
-    localSaveTodoList() {
-      this.todoList = JSON.parse(localStorage.getItem('todoList')) || this.todoList;
+      const todoList = this.todoList.filter((it) => it.id !== id);
+      this.$store.commit('updateTodoList', todoList);
     },
   },
 };

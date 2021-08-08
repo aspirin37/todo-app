@@ -39,6 +39,7 @@
 
 <script>
 import uniqid from 'uniqid';
+import { mapState } from 'vuex';
 import TodoList from './TodoList.vue';
 
 export default {
@@ -51,19 +52,14 @@ export default {
       tabs: ['All', 'Active', 'Completed'],
       currentTab: 'All',
       newTodo: '',
-      todoList: [{
-        id: uniqid(),
-        text: 'Купить молоко',
-        checked: true,
-      }, {
-        id: uniqid(),
-        text: 'Погладить кота',
-        checked: false,
-      }],
       allChecked: false,
     };
   },
   computed: {
+    ...mapState(['todoList']),
+    todoLeft() {
+      return this.todoList.filter((it) => !it.checked).length;
+    },
     todosLeft() {
       return this.todoList.filter((it) => !it.checked).length;
     },
