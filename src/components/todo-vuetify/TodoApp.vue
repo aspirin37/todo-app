@@ -99,6 +99,7 @@ export default {
       handler(val) {
         this.allChecked = val.every((it) => it.checked);
         localStorage.setItem('todoList', JSON.stringify(this.todoList));
+        this.$store.commit('updateTodoList', this.todoList);
       },
       deep: true,
     },
