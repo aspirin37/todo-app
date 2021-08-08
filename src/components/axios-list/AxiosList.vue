@@ -27,6 +27,7 @@
           >
             {{ currency.description }}:
             <span class="font-weight-light">
+              <!-- eslint-disable-next-line -->
               <span v-html="currency.symbol" />
               {{ currency.rate_float | currencydecimal }}
             </span>
@@ -36,9 +37,8 @@
 
       <div class="wrap">
         <h2>Date now</h2>
-        <span>
-          {{ dateNow }}
-        </span>
+        <div>{{ dateEn }}</div>
+        <div>{{ dateRu }}</div>
       </div>
     </v-card>
   </div>
@@ -46,9 +46,6 @@
 
 <script>
 import axios from 'axios';
-import moment from 'moment';
-
-// moment.locale('ru');
 
 export default {
   name: 'AxiosList',
@@ -64,8 +61,8 @@ export default {
       info: null,
       loading: true,
       errored: false,
-      dateNow: moment().format('LLLL'),
-      langTime: moment(),
+      dateEn: this.$moment().locale('en').format('LLLL'),
+      dateRu: this.$moment().locale('ru').format('LLLL'),
 
     };
   },
