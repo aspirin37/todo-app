@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-main>
+    <v-content>
       <h1>todos</h1>
       <v-card
         elevation="10"
@@ -42,7 +42,7 @@
           </button>
         </div>
       </v-card>
-    </v-main>
+    </v-content>
   </div>
 </template>
 
@@ -70,7 +70,9 @@ export default {
         id: uniqid(),
         text: 'Second item',
         checked: false,
-      }],
+      },
+      ],
+
     };
   },
 
@@ -99,7 +101,6 @@ export default {
       handler(val) {
         this.allChecked = val.every((it) => it.checked);
         localStorage.setItem('todoList', JSON.stringify(this.todoList));
-        this.$store.commit('updateTodoList', this.todoList);
       },
       deep: true,
     },
@@ -158,6 +159,15 @@ h1 {
 
 .header-form {
   border-bottom: 1px solid rgb(130, 130, 130);
+}
+.no-bottom-line .v-text-field__details {
+  display: none;
+}
+.no-bottom-line .v-input__slot::before {
+  display: none;
+}
+.no-bottom-line .v-input__slot::after {
+  display: none;
 }
 
 </style>
