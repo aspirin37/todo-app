@@ -57,7 +57,7 @@ export default {
         checked: true,
       }, {
         id: uniqid(),
-        text: 'Нассать на кота',
+        text: 'Погладить кота',
         checked: false,
       }],
       allChecked: false,
