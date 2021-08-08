@@ -1,19 +1,13 @@
 <template>
-  <div>
-    <visual-doc />
-  </div>
+  <p>Hello</p>
 </template>
 
 <script>
-import VisualDoc from './VisualDoc.vue';
-
 export default {
   name: 'HelloUser',
-  components: { VisualDoc },
 };
-
 </script>
 
-<style scoped>
+<style>
 
 </style>
