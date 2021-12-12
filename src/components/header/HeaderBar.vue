@@ -33,13 +33,19 @@
       >
         Axios-List
       </v-btn>
+      <mobile-menu />
     </v-app-bar>
   </div>
 </template>
 
 <script>
+import MobileMenu from './MobileMenu.vue';
+
 export default {
   name: 'HeaderBar',
+  components: {
+    MobileMenu,
+  },
 };
 </script>
 

@@ -22,6 +22,8 @@
         </v-row>
         <todo-list
           :list="currentList"
+          @addItem="addItem"
+          @editItem="editItem"
           @removeItem="removeItem"
         />
         <div class="bottom-form mt-6">
@@ -49,6 +51,7 @@
 <script>
 import uniqid from 'uniqid';
 
+import { mapState } from 'vuex';
 import TodoList from './TodoList.vue';
 
 export default {
@@ -61,20 +64,11 @@ export default {
       currentTab: 'All',
       newTodo: '',
       tabs: ['All', 'Active', 'Completed'],
-
-      todoList: [{
-        id: uniqid(),
-        text: 'First item',
-        checked: true,
-      }, {
-        id: uniqid(),
-        text: 'Second item',
-        checked: false,
-      }],
     };
   },
 
   computed: {
+    ...mapState(['todoList']),
     todoLeft() {
       return this.todoList.filter((it) => !it.checked).length;
     },
@@ -99,14 +93,9 @@ export default {
       handler(val) {
         this.allChecked = val.every((it) => it.checked);
         localStorage.setItem('todoList', JSON.stringify(this.todoList));
-        this.$store.commit('updateTodoList', this.todoList);
       },
       deep: true,
     },
-  },
-
-  created() {
-    this.localSaveTodoList();
   },
 
   methods: {
@@ -116,11 +105,12 @@ export default {
         text: this.newTodo,
         checked: false,
       };
-      this.todoList.push(newTodoObj);
       this.newTodo = '';
+      this.$store.commit('addNewTodo', newTodoObj);
     },
     clearCompleted() {
-      this.todoList = this.todoList.filter((it) => !it.checked);
+      const todoList = this.todoList.filter((it) => !it.checked);
+      this.$store.commit('updateTodoList', todoList);
     },
     setCurrentTab(val) {
       this.currentTab = val;
@@ -130,11 +120,22 @@ export default {
         it.checked = this.allChecked;
       });
     },
-    removeItem(id) {
-      this.todoList = this.todoList.filter((it) => it.id !== id);
+    addItem(newItem) {
+      const newTodoObj = {
+        id: uniqid(),
+        text: newItem.text,
+        checked: newItem.checked,
+      };
+      this.$store.commit('addNewTodo', newTodoObj);
     },
-    localSaveTodoList() {
-      this.todoList = JSON.parse(localStorage.getItem('todoList')) || this.todoList;
+    editItem(newItem) {
+      const oldItemIndex = this.todoList.findIndex((it) => it.id === newItem.id);
+      this.$set(this.todoList, oldItemIndex, newItem);
+      this.$store.commit('updateTodoList', this.todoList);
+    },
+    removeItem(id) {
+      const todoList = this.todoList.filter((it) => it.id !== id);
+      this.$store.commit('updateTodoList', todoList);
     },
   },
 };

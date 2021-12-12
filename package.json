@@ -48,7 +48,8 @@
     },
     "rules": {
       "no-param-reassign": "off",
-      "vue/require-default-prop": "off"
+      "vue/require-default-prop": "off",
+      "linebreak-style": "off"
     }
   },
   "browserslist": [
